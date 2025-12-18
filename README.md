@@ -1,10 +1,10 @@
 # Inkdrop
 
-![all-app](<img width="1382" height="887" alt="image" src="https://github.com/user-attachments/assets/c37a9699-759c-4cb9-8cb4-c66a7de5b73e" />)
+![all-app](https://files.catbox.moe/kc3b47.png)
 ![settings](https://files.catbox.moe/i55yf1.png)
 
 ## Math support for your class!
-![math](<img width="1380" height="895" alt="image" src="https://github.com/user-attachments/assets/b49ba619-38c2-4926-99b4-7cbec11a0d0d" />)
+![math](https://files.catbox.moe/ae7kg0.png)
 
 A beautiful, feature-rich Markdown note-taking desktop application built with Electron, React, and Tailwind CSS 4.1.
 
