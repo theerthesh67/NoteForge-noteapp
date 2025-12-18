@@ -223,7 +223,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/your-username/inkdrop/issues).
+For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/Angel87develop/NoteForge-noteapp/issues).
 
 ---
 
