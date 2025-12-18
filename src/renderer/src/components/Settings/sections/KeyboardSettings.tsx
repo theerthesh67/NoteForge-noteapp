@@ -19,6 +19,50 @@ export default function KeyboardSettings(): React.ReactElement {
     updateKeyboardSettings({ shortcuts: updatedShortcuts })
   }
 
+  const formatKeyCombo = (e: React.KeyboardEvent<HTMLInputElement>): string => {
+    const parts: string[] = []
+    if (e.ctrlKey || e.metaKey) parts.push('Ctrl')
+    if (e.altKey) parts.push('Alt')
+    if (e.shiftKey) parts.push('Shift')
+    
+    // Ignorar teclas modificadoras solas
+    if (['Control', 'Meta', 'Alt', 'Shift'].includes(e.key)) {
+      return ''
+    }
+    
+    // Formatear la tecla principal
+    let key = e.key
+    if (key === ' ') key = 'Space'
+    if (key === 'Tab') key = 'Tab'
+    if (key === 'Enter') key = 'Enter'
+    if (key === 'Escape') key = 'Esc'
+    if (key === 'ArrowUp') key = 'Up'
+    if (key === 'ArrowDown') key = 'Down'
+    if (key === 'ArrowLeft') key = 'Left'
+    if (key === 'ArrowRight') key = 'Right'
+    
+    // Convertir a formato legible
+    if (key.length === 1) {
+      key = key.toUpperCase()
+    } else {
+      key = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()
+    }
+    
+    parts.push(key)
+    return parts.join('+')
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, shortcutId: string): void => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    const keyCombo = formatKeyCombo(e)
+    if (keyCombo) {
+      handleShortcutChange(shortcutId, keyCombo)
+      setEditingShortcut(null)
+    }
+  }
+
   return (
     <div className="space-y-8">
       <div>
@@ -51,12 +95,11 @@ export default function KeyboardSettings(): React.ReactElement {
                   <input
                     type="text"
                     value={shortcut.currentKey}
-                    onChange={(e) => handleShortcutChange(shortcut.id, e.target.value)}
+                    readOnly
+                    onKeyDown={(e) => handleKeyDown(e, shortcut.id)}
                     onBlur={() => setEditingShortcut(null)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') setEditingShortcut(null)
-                    }}
-                    className="px-3 py-1.5 bg-ink-800 border border-amber rounded text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-amber/20 w-32"
+                    className="px-3 py-1.5 bg-ink-800 border border-amber rounded text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-amber/20 w-32 cursor-pointer"
+                    placeholder="Press a key combination..."
                     autoFocus
                   />
                 ) : (

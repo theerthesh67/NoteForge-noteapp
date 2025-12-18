@@ -90,10 +90,13 @@ export default function NoteEditor({
       
       previousNoteIdRef.current = currentNoteId
       const sanitizedContent = sanitizeContent(note.content)
+      const isNewNote = note.title === 'Untitled Note' && note.content === ''
+      
       requestAnimationFrame(() => {
         setEditedContent(sanitizedContent)
         setEditedTitle(note.title)
-        setIsEditingTitle(false)
+        // Activar edición del título automáticamente si es una nueva nota
+        setIsEditingTitle(isNewNote)
       })
       lastSavedContentRef.current = sanitizedContent
       lastSavedTitleRef.current = note.title
@@ -165,6 +168,18 @@ export default function NoteEditor({
       handleSave()
     }
   }, [handleSave])
+
+  // Escuchar evento de toggle preview desde shortcuts
+  useEffect(() => {
+    const handleTogglePreview = (): void => {
+      setViewMode(prev => prev === 'markdown' ? 'rendered' : 'markdown')
+    }
+
+    window.addEventListener('toggle-preview', handleTogglePreview as EventListener)
+    return () => {
+      window.removeEventListener('toggle-preview', handleTogglePreview as EventListener)
+    }
+  }, [])
 
   const handleTitleSave = (title: string) => {
     if (note) {

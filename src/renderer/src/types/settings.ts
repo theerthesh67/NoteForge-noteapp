@@ -6,9 +6,35 @@ export type UIDensity = 'compact' | 'normal' | 'comfortable'
 export type IconSet = 'minimal' | 'outline' | 'filled'
 export type KeyboardProfile = 'default' | 'vim' | 'emacs'
 
+export type FontFamily = 
+  | 'JetBrains Mono'
+  | 'Fira Code'
+  | 'Source Code Pro'
+  | 'Cascadia Code'
+  | 'Consolas'
+  | 'Monaco'
+  | 'Menlo'
+  | 'Courier New'
+  | 'Ubuntu Mono'
+  | 'Roboto Mono'
+  | 'Inconsolata'
+  | 'Space Mono'
+  | 'IBM Plex Mono'
+  | 'Hack'
+  | 'Anonymous Pro'
+  | 'DM Sans'
+  | 'Inter'
+  | 'Roboto'
+  | 'Open Sans'
+  | 'Lato'
+  | 'Montserrat'
+  | 'Poppins'
+  | 'Raleway'
+  | 'custom'
+
 export interface EditorAppearance {
   fontSize: number
-  fontFamily: 'monospace' | 'custom'
+  fontFamily: FontFamily
   customFontFamily: string
   lineHeight: number
   maxTextWidth: boolean
@@ -91,7 +117,7 @@ export const defaultSettings: Settings = {
   editor: {
     appearance: {
       fontSize: 14,
-      fontFamily: 'monospace',
+      fontFamily: 'JetBrains Mono',
       customFontFamily: 'JetBrains Mono',
       lineHeight: 1.6,
       maxTextWidth: true,
@@ -119,11 +145,10 @@ export const defaultSettings: Settings = {
   },
   keyboard: {
     shortcuts: [
-      { id: 'new-note', name: 'Crear nota', defaultKey: 'Ctrl+N', currentKey: 'Ctrl+N' },
-      { id: 'switch-note', name: 'Cambiar nota', defaultKey: 'Ctrl+Tab', currentKey: 'Ctrl+Tab' },
+      { id: 'new-note', name: 'Create note', defaultKey: 'Ctrl+N', currentKey: 'Ctrl+N' },
+      { id: 'switch-note', name: 'Switch note', defaultKey: 'Ctrl+Tab', currentKey: 'Ctrl+Tab' },
       { id: 'toggle-preview', name: 'Toggle preview', defaultKey: 'Ctrl+P', currentKey: 'Ctrl+P' },
-      { id: 'toggle-sidebar', name: 'Toggle sidebar', defaultKey: 'Ctrl+B', currentKey: 'Ctrl+B' },
-      { id: 'focus-mode', name: 'Modo enfoque', defaultKey: 'F11', currentKey: 'F11' }
+      { id: 'toggle-sidebar', name: 'Toggle sidebar', defaultKey: 'Ctrl+B', currentKey: 'Ctrl+B' }
     ],
     profile: 'default'
   },

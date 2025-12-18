@@ -462,7 +462,7 @@ export function createWelcomeNoteIfNewUser(): void {
     saveNoteToFile(noteId, title, welcomeContent)
     console.log('Nota de bienvenida creada exitosamente')
   } catch (error) {
-    console.error('Error al crear nota de bienvenida:', error)
+    console.error('Error al Create note de bienvenida:', error)
     // No lanzar error para no interrumpir el inicio de la app
   }
 }

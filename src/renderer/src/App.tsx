@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import Sidebar from './components/Sidebar'
 import NotesList from './components/NotesList'
 import NoteEditor from './components/NoteEditor'
 import Settings from './components/Settings'
-import { SettingsProvider } from './contexts/SettingsContext'
+import { SettingsProvider, useSettings } from './contexts/SettingsContext'
 import { Note, Notebook } from './types/note'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 // Sample data
 const initialNotes: Note[] = []
@@ -341,49 +342,180 @@ function App(): React.JSX.Element {
 
   return (
     <SettingsProvider>
-      <div className="flex h-screen w-screen overflow-hidden bg-ink-900">
-        {/* Section 1: Left Sidebar */}
-        <Sidebar
-          notes={notes.filter((n) => !n.deleted)}
-          notebooks={notebooksWithCounts}
-          tags={tags}
-          selectedNotebook={selectedNotebook}
-          selectedStatus={selectedStatus}
-          selectedTag={selectedTag}
-          onNotebookSelect={handleNotebookSelect}
-          onStatusSelect={handleStatusSelect}
-          onTagSelect={handleTagSelect}
-          onCreateNotebook={handleCreateNotebook}
-          onDeleteNotebook={handleDeleteNotebook}
-          onTagUpdate={handleTagUpdate}
-          onTagDelete={handleTagDelete}
-          onFilterChange={setFilterType}
-          onSettingsClick={() => setShowSettings(true)}
-        />
-
-        {/* Section 2: Notes List */}
-        <NotesList
-          notes={activeNotes}
-          selectedNoteId={selectedNoteId}
-          onNoteSelect={handleNoteSelect}
-          onNewNote={handleNewNote}
-          onPinNote={handlePinNote}
-          onDeleteNote={handleDeleteNote}
-        />
-
-        {/* Section 3: Note Editor */}
-        <NoteEditor
-          note={selectedNote || null}
-          notebooks={notebooksWithCounts}
-          tags={tags}
-          onNoteUpdate={handleNoteUpdate}
-          onTagUpdate={handleTagUpdate}
-        />
-
-        {/* Settings Modal */}
-        {showSettings && <Settings onClose={() => setShowSettings(false)} />}
-      </div>
+      <AppContent
+        notes={notes.filter((n) => !n.deleted)}
+        notebooksWithCounts={notebooksWithCounts}
+        tags={tags}
+        selectedNotebook={selectedNotebook}
+        selectedStatus={selectedStatus}
+        selectedTag={selectedTag}
+        activeNotes={activeNotes}
+        selectedNoteId={selectedNoteId}
+        selectedNote={selectedNote}
+        showSettings={showSettings}
+        onNotebookSelect={handleNotebookSelect}
+        onStatusSelect={handleStatusSelect}
+        onTagSelect={handleTagSelect}
+        onCreateNotebook={handleCreateNotebook}
+        onDeleteNotebook={handleDeleteNotebook}
+        onTagUpdate={handleTagUpdate}
+        onTagDelete={handleTagDelete}
+        onFilterChange={setFilterType}
+        onSettingsClick={() => setShowSettings(true)}
+        onNoteSelect={handleNoteSelect}
+        onNewNote={handleNewNote}
+        onPinNote={handlePinNote}
+        onDeleteNote={handleDeleteNote}
+        onNoteUpdate={handleNoteUpdate}
+        onCloseSettings={() => setShowSettings(false)}
+      />
     </SettingsProvider>
+  )
+}
+
+function AppContent({
+  notes,
+  notebooksWithCounts,
+  tags,
+  selectedNotebook,
+  selectedStatus,
+  selectedTag,
+  activeNotes,
+  selectedNoteId,
+  selectedNote,
+  showSettings,
+  onNotebookSelect,
+  onStatusSelect,
+  onTagSelect,
+  onCreateNotebook,
+  onDeleteNotebook,
+  onTagUpdate,
+  onTagDelete,
+  onFilterChange,
+  onSettingsClick,
+  onNoteSelect,
+  onNewNote,
+  onPinNote,
+  onDeleteNote,
+  onNoteUpdate,
+  onCloseSettings
+}: {
+  notes: Note[]
+  notebooksWithCounts: Notebook[]
+  tags: Record<string, string>
+  selectedNotebook: string | null
+  selectedStatus: Note['status'] | null
+  selectedTag: string | null
+  activeNotes: Note[]
+  selectedNoteId: string | undefined
+  selectedNote: Note | undefined
+  showSettings: boolean
+  onNotebookSelect: (id: string | null) => void
+  onStatusSelect: (status: Note['status'] | null) => void
+  onTagSelect: (tagName: string | null) => void
+  onCreateNotebook: (name: string, parentId?: string) => Promise<void>
+  onDeleteNotebook: (notebookId: string, isSubnotebook: boolean, parentId?: string) => void
+  onTagUpdate: (tagName: string, color: string) => void
+  onTagDelete: (tagName: string) => void
+  onFilterChange: (filter: 'all' | 'pinned' | 'notebook' | 'status' | 'tag') => void
+  onSettingsClick: () => void
+  onNoteSelect: (note: Note) => void
+  onNewNote: () => Promise<void>
+  onPinNote: (noteId: string) => void
+  onDeleteNote: (noteId: string) => Promise<void>
+  onNoteUpdate: (note: Note) => Promise<void>
+  onCloseSettings: () => void
+}): React.JSX.Element {
+  const { settings, updateUIVisibility } = useSettings()
+
+  // Aplicar fuente globalmente
+  useEffect(() => {
+    const fontFamily = settings.editor.appearance.fontFamily === 'custom'
+      ? settings.editor.appearance.customFontFamily
+      : settings.editor.appearance.fontFamily
+
+    // Aplicar a body y root
+    document.body.style.fontFamily = `"${fontFamily}", -apple-system, BlinkMacSystemFont, sans-serif`
+    document.documentElement.style.fontFamily = `"${fontFamily}", -apple-system, BlinkMacSystemFont, sans-serif`
+    
+    return () => {
+      document.body.style.fontFamily = ''
+      document.documentElement.style.fontFamily = ''
+    }
+  }, [settings.editor.appearance.fontFamily, settings.editor.appearance.customFontFamily])
+
+  // Función para cambiar entre notas
+  const handleSwitchNote = useCallback(() => {
+    if (activeNotes.length === 0) return
+    
+    const currentIndex = activeNotes.findIndex(n => n.id === selectedNoteId)
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % activeNotes.length
+    onNoteSelect(activeNotes[nextIndex])
+  }, [activeNotes, selectedNoteId, onNoteSelect])
+
+  // Función para toggle sidebar
+  const handleToggleSidebar = useCallback(() => {
+    updateUIVisibility({ showSidebar: !settings.ui.visibility.showSidebar })
+  }, [settings.ui.visibility.showSidebar, updateUIVisibility])
+
+  // Función para toggle preview (se maneja con evento custom)
+  const handleTogglePreview = useCallback(() => {
+    window.dispatchEvent(new CustomEvent('toggle-preview'))
+  }, [])
+
+  // Integrar shortcuts
+  useKeyboardShortcuts({
+    onCreateNote: () => onNewNote(),
+    onSwitchNote: handleSwitchNote,
+    onTogglePreview: handleTogglePreview,
+    onToggleSidebar: handleToggleSidebar
+  })
+
+  return (
+    <div className="flex h-screen w-screen overflow-hidden bg-ink-900">
+      {/* Section 1: Left Sidebar */}
+      {settings.ui.visibility.showSidebar && (
+        <Sidebar
+        notes={notes}
+        notebooks={notebooksWithCounts}
+        tags={tags}
+        selectedNotebook={selectedNotebook}
+        selectedStatus={selectedStatus}
+        selectedTag={selectedTag}
+        onNotebookSelect={onNotebookSelect}
+        onStatusSelect={onStatusSelect}
+        onTagSelect={onTagSelect}
+        onCreateNotebook={onCreateNotebook}
+        onDeleteNotebook={onDeleteNotebook}
+        onTagUpdate={onTagUpdate}
+        onTagDelete={onTagDelete}
+        onFilterChange={onFilterChange}
+        onSettingsClick={onSettingsClick}
+        />
+      )}
+
+      {/* Section 2: Notes List */}
+      <NotesList
+        notes={activeNotes}
+        selectedNoteId={selectedNoteId}
+        onNoteSelect={onNoteSelect}
+        onNewNote={onNewNote}
+        onPinNote={onPinNote}
+        onDeleteNote={onDeleteNote}
+      />
+
+      {/* Section 3: Note Editor */}
+      <NoteEditor
+        note={selectedNote || null}
+        notebooks={notebooksWithCounts}
+        tags={tags}
+        onNoteUpdate={onNoteUpdate}
+        onTagUpdate={onTagUpdate}
+      />
+
+      {/* Settings Modal */}
+      {showSettings && <Settings onClose={onCloseSettings} />}
+    </div>
   )
 }
 

@@ -27,12 +27,35 @@ export default function EditorSettings(): React.ReactElement {
           
           <Select
             label="Font family"
+            description="Select a font for the entire application"
             value={settings.editor.appearance.fontFamily}
             options={[
-              { value: 'monospace', label: 'Monospace' },
-              { value: 'custom', label: 'Custom font' }
+              { value: 'JetBrains Mono', label: 'JetBrains Mono' },
+              { value: 'Fira Code', label: 'Fira Code' },
+              { value: 'Source Code Pro', label: 'Source Code Pro' },
+              { value: 'Cascadia Code', label: 'Cascadia Code' },
+              { value: 'Consolas', label: 'Consolas' },
+              { value: 'Monaco', label: 'Monaco' },
+              { value: 'Menlo', label: 'Menlo' },
+              { value: 'Courier New', label: 'Courier New' },
+              { value: 'Ubuntu Mono', label: 'Ubuntu Mono' },
+              { value: 'Roboto Mono', label: 'Roboto Mono' },
+              { value: 'Inconsolata', label: 'Inconsolata' },
+              { value: 'Space Mono', label: 'Space Mono' },
+              { value: 'IBM Plex Mono', label: 'IBM Plex Mono' },
+              { value: 'Hack', label: 'Hack' },
+              { value: 'Anonymous Pro', label: 'Anonymous Pro' },
+              { value: 'DM Sans', label: 'DM Sans' },
+              { value: 'Inter', label: 'Inter' },
+              { value: 'Roboto', label: 'Roboto' },
+              { value: 'Open Sans', label: 'Open Sans' },
+              { value: 'Lato', label: 'Lato' },
+              { value: 'Montserrat', label: 'Montserrat' },
+              { value: 'Poppins', label: 'Poppins' },
+              { value: 'Raleway', label: 'Raleway' },
+              { value: 'custom', label: 'Custom font...' }
             ]}
-            onChange={(value) => updateEditorAppearance({ fontFamily: value as 'monospace' | 'custom' })}
+            onChange={(value) => updateEditorAppearance({ fontFamily: value as any })}
           />
           
           {settings.editor.appearance.fontFamily === 'custom' && (

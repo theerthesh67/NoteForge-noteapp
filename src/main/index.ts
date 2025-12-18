@@ -139,7 +139,7 @@ app.whenReady().then(() => {
   // Asegurar que la carpeta existe al iniciar
   ensureInkdropNotesFolder()
 
-  // Crear nota de bienvenida si el usuario es nuevo
+  // Create note de bienvenida si el usuario es nuevo
   createWelcomeNoteIfNewUser()
 
   createWindow()

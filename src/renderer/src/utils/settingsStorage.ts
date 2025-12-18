@@ -8,6 +8,41 @@ export const loadSettings = (): Settings => {
     const stored = localStorage.getItem(SETTINGS_KEY)
     if (stored) {
       const parsed = JSON.parse(stored)
+      
+      // Migrar nombres de shortcuts de español a inglés y eliminar shortcuts obsoletos
+      let shortcuts = parsed.keyboard?.shortcuts || defaultSettings.keyboard.shortcuts
+      shortcuts = shortcuts.map((shortcut: any) => {
+        // Migrar nombres en español a inglés
+        const nameMap: Record<string, string> = {
+          'Crear nota': 'Create note',
+          'Cambiar nota': 'Switch note',
+          'Modo enfoque': 'Focus mode'
+        }
+        
+        // Actualizar nombre si está en el mapa
+        if (nameMap[shortcut.name]) {
+          shortcut.name = nameMap[shortcut.name]
+        }
+        
+        return shortcut
+      })
+      
+      // Eliminar shortcut de "Modo enfoque" (focus-mode)
+      shortcuts = shortcuts.filter((shortcut: any) => shortcut.id !== 'focus-mode')
+      
+      // Asegurar que todos los shortcuts requeridos existan
+      const requiredShortcutIds = ['new-note', 'switch-note', 'toggle-preview', 'toggle-sidebar']
+      const existingIds = shortcuts.map((s: any) => s.id)
+      
+      requiredShortcutIds.forEach((id) => {
+        if (!existingIds.includes(id)) {
+          const defaultShortcut = defaultSettings.keyboard.shortcuts.find(s => s.id === id)
+          if (defaultShortcut) {
+            shortcuts.push(defaultShortcut)
+          }
+        }
+      })
+      
       // Merge con defaults para asegurar que todas las propiedades existan
       return {
         ...defaultSettings,
@@ -31,7 +66,7 @@ export const loadSettings = (): Settings => {
         keyboard: {
           ...defaultSettings.keyboard,
           ...parsed.keyboard,
-          shortcuts: parsed.keyboard?.shortcuts || defaultSettings.keyboard.shortcuts
+          shortcuts
         },
         ui: {
           ...defaultSettings.ui,

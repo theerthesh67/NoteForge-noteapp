@@ -64,6 +64,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Global font family will be set dynamically via inline style */
+
 #root {
   width: 100vw;
   height: 100vh;
