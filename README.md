@@ -1,4 +1,4 @@
-# Inkdrop
+# NoteForge
 
 ![all-app](https://files.catbox.moe/86qd4y.png)
 ![settings](https://files.catbox.moe/d30z6j.png)
